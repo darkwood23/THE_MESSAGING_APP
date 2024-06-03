@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import useConversation from "../../zustand/useConversation";
 import { extractTime } from "../../utils/extractTime";
@@ -11,8 +11,9 @@ const Message = ({ message }) => {
     const chatClassName = fromMe ? "chat-end" : "chat-start";
     const profilePic = fromMe
         ? authUser.profilePic
-        : selectedConversation.profilePic;
+        : selectedConversation?.profilePic;
     const bubbleBgColor = fromMe ? "bg-blue-500" : "";
+    const shakeClass = message.shouldShake ? "shake" : "";
 
     return (
         <div className={`chat ${chatClassName}`}>
@@ -24,7 +25,9 @@ const Message = ({ message }) => {
                     />
                 </div>
             </div>
-            <div className={`chat-bubble text-white ${bubbleBgColor}`}>
+            <div
+                className={`chat-bubble text-white ${bubbleBgColor} ${shakeClass}`}
+            >
                 {message.message}
             </div>
             <div
